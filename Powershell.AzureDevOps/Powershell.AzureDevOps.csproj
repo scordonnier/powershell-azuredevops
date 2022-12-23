@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile></DocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.TeamFoundationServer.Client" Version="19.212.0-preview" />
+      <PackageReference Include="Microsoft.VisualStudio.Services.Client" Version="19.212.0-preview" />
+      <PackageReference Include="Microsoft.VisualStudio.Services.ServiceEndpoints.WebApi" Version="19.212.0-preview" />
+      <PackageReference Include="PowerShellStandard.Library" Version="5.1.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Powershell-AzureDevOps.psd1">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+</Project>
