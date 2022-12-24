@@ -3,7 +3,7 @@ namespace Powershell.AzureDevOps.Cmdlets.Core;
 using System.Management.Automation;
 using Microsoft.TeamFoundation.Core.WebApi;
 
-[Cmdlet(VerbsCommon.Get,"AzDoProject")]
+[Cmdlet(VerbsCommon.Get, "AzDoProject")]
 [OutputType(typeof(TeamProject))]
 public class GetAzDoProjectCmdlet : CmdletBase
 {
@@ -18,9 +18,7 @@ public class GetAzDoProjectCmdlet : CmdletBase
 
     protected override void ProcessRecord()
     {
-        using var client = ProjectClient;
-        var project = client.GetProject(ProjectId).Result;
-        WriteObject(project);
+        WriteObject(ProjectClient.GetProjectAsync(ProjectId).Result);
     }
 
     #endregion
