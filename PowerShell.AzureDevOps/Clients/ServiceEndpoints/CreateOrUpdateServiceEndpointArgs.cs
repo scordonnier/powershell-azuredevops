@@ -1,4 +1,4 @@
-namespace Powershell.AzureDevOps.Clients.ServiceEndpoints;
+namespace PowerShell.AzureDevOps.Clients.ServiceEndpoints;
 
 public class CreateOrUpdateServiceEndpointArgs
 {

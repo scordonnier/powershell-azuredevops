@@ -4,6 +4,11 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
+        <Version>0.1.0</Version>
+        <Authors>Stephane Cordonnier</Authors>
+        <Description>PowerShell Cmdlets for Azure DevOps</Description>
+        <AssemblyName>PowerShell.AzureDevOps</AssemblyName>
+        <RootNamespace>PowerShell.AzureDevOps</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -18,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Powershell-AzureDevOps.psd1">
+      <None Update="PowerShell.AzureDevOps.psd1">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

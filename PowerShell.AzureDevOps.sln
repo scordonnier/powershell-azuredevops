@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Powershell.AzureDevOps", "Powershell.AzureDevOps\Powershell.AzureDevOps.csproj", "{8D4B109E-24EA-40F3-B554-E5E60A11D084}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerShell.AzureDevOps", "PowerShell.AzureDevOps\PowerShell.AzureDevOps.csproj", "{8D4B109E-24EA-40F3-B554-E5E60A11D084}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
