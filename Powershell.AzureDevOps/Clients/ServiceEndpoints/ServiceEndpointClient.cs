@@ -72,6 +72,11 @@ internal class ServiceEndpointClient
         return client.GetServiceEndpointsAsync(projectId, cancellationToken: cancellationToken);
     }
 
+    public Task RemoveServiceEndpointAsync(Guid endpointId, IEnumerable<string> projectIds, CancellationToken cancellationToken = default)
+    {
+        return client.DeleteServiceEndpointAsync(endpointId, projectIds, cancellationToken: cancellationToken);
+    }
+    
     #endregion
 
     #region Private Methods
