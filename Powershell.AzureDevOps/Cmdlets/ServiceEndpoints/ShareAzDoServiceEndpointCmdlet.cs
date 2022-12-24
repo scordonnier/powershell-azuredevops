@@ -8,7 +8,7 @@ public class ShareAzDoServiceEndpointCmdlet : CmdletBase
     #region Parameters
 
     [Parameter(Mandatory = true)]
-    public Guid EndpointId { get; set; }
+    public Guid Id { get; set; }
 
     [Parameter(Mandatory = true)]
     public string SourceProjectId { get; set; }
@@ -22,7 +22,7 @@ public class ShareAzDoServiceEndpointCmdlet : CmdletBase
 
     protected override void ProcessRecord()
     {
-        ServiceEndpointClient.ShareServiceEndpointAsync(EndpointId, SourceProjectId, TargetProjectId).Wait();
+        ServiceEndpointClient.ShareServiceEndpointAsync(Id, SourceProjectId, TargetProjectId).Wait();
     }
 
     #endregion

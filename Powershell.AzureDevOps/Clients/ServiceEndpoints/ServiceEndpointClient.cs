@@ -67,19 +67,36 @@ internal class ServiceEndpointClient
         return client.CreateServiceEndpointAsync(serviceEndpoint, cancellationToken: cancellationToken);
     }
 
+    public async Task<ServiceEndpoint> GetServiceEndpointAsync(Guid id, string name, Guid projectId, CancellationToken cancellationToken = default)
+    {
+        if ((string.IsNullOrWhiteSpace(name) && id == Guid.Empty) || (!string.IsNullOrWhiteSpace(name) && id != Guid.Empty))
+        {
+            throw new ArgumentException("You must provide either 'Id' or 'Name' parameters, but not both together.");
+        }
+
+        if (id != Guid.Empty)
+        {
+            var serviceEndpointDetails = await client.GetServiceEndpointDetailsAsync(projectId, id, cancellationToken: cancellationToken);
+            return serviceEndpointDetails ?? throw new Exception($"Endpoint '{id}' not found in project '{projectId}'");
+        }
+
+        var serviceEndpointsByNames = await client.GetServiceEndpointsByNamesAsync(projectId, new List<string> { name }, cancellationToken: cancellationToken);
+        return serviceEndpointsByNames.FirstOrDefault() ?? throw new Exception($"Endpoint '{name}' not found in project '{projectId}'");
+    }
+
     public Task<List<ServiceEndpoint>> GetServiceEndpointsAsync(Guid projectId, CancellationToken cancellationToken = default)
     {
         return client.GetServiceEndpointsAsync(projectId, cancellationToken: cancellationToken);
     }
 
-    public Task RemoveServiceEndpointAsync(Guid endpointId, IEnumerable<string> projectIds, CancellationToken cancellationToken = default)
+    public Task RemoveServiceEndpointAsync(Guid id, IEnumerable<string> projectIds, CancellationToken cancellationToken = default)
     {
-        return client.DeleteServiceEndpointAsync(endpointId, projectIds, cancellationToken: cancellationToken);
+        return client.DeleteServiceEndpointAsync(id, projectIds, cancellationToken: cancellationToken);
     }
 
-    public Task ShareServiceEndpointAsync(Guid endpointId, string sourceProjectId, string targetProjectId, CancellationToken cancellationToken = default)
+    public Task ShareServiceEndpointAsync(Guid id, string sourceProjectId, string targetProjectId, CancellationToken cancellationToken = default)
     {
-        return client.ShareEndpointWithProjectAsync(endpointId, sourceProjectId, targetProjectId, cancellationToken: cancellationToken);
+        return client.ShareEndpointWithProjectAsync(id, sourceProjectId, targetProjectId, cancellationToken: cancellationToken);
     }
 
     #endregion

@@ -8,7 +8,7 @@ public class RemoveAzDoServiceEndpointCmdlet : CmdletBase
     #region Parameters
 
     [Parameter(Mandatory = true)]
-    public Guid EndpointId { get; set; }
+    public Guid Id { get; set; }
 
     [Parameter(Mandatory = true)]
     public List<string> ProjectIds { get; set; }
@@ -19,7 +19,7 @@ public class RemoveAzDoServiceEndpointCmdlet : CmdletBase
 
     protected override void ProcessRecord()
     {
-        ServiceEndpointClient.RemoveServiceEndpointAsync(EndpointId, ProjectIds).Wait();
+        ServiceEndpointClient.RemoveServiceEndpointAsync(Id, ProjectIds).Wait();
     }
 
     #endregion
