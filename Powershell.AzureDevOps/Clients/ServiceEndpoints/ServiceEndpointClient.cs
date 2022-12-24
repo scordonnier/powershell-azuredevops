@@ -76,7 +76,12 @@ internal class ServiceEndpointClient
     {
         return client.DeleteServiceEndpointAsync(endpointId, projectIds, cancellationToken: cancellationToken);
     }
-    
+
+    public Task ShareServiceEndpointAsync(Guid endpointId, string sourceProjectId, string targetProjectId, CancellationToken cancellationToken = default)
+    {
+        return client.ShareEndpointWithProjectAsync(endpointId, sourceProjectId, targetProjectId, cancellationToken: cancellationToken);
+    }
+
     #endregion
 
     #region Private Methods
