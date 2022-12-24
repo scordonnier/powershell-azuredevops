@@ -1,0 +1,25 @@
+name: "Publish PowerShell Module"
+
+on:
+  push:
+    branches:
+      - "main"
+      - "develop"
+  workflow_dispatch:
+    branches:
+      - "feature/**"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.106
+      - name: Build PowerShell Module
+        run: dotnet publish -c Release -o $HOME/.local/share/powershell/Modules/PowerShell.AzureDevOps
+      - name: Publish PowerShell Module
+        shell: pwsh
+        run: Publish-Module -Name PowerShell.AzureDevOps -NuGetApiKey ${{ secrets.POWERSHELL_GALLERY }} -Force
