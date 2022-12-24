@@ -6,22 +6,19 @@ using Microsoft.VisualStudio.Services.Common;
 using Microsoft.VisualStudio.Services.Organization.Client;
 using Microsoft.VisualStudio.Services.ServiceEndpoints.WebApi;
 using Microsoft.VisualStudio.Services.WebApi;
+using Powershell.AzureDevOps.Clients.Organization;
+using Powershell.AzureDevOps.Clients.Projects;
+using Powershell.AzureDevOps.Clients.ServiceEndpoints;
 
 public class CmdletBase : PSCmdlet
 {
-    #region Private Properties
+    #region Internal Properties
 
-    private VssConnection VssConnection => SessionState.PSVariable.GetValue(VariableNames.VssConnection) as VssConnection;
+    internal OrganizationClient OrganizationClient => SessionState.PSVariable.GetValue(VariableNames.OrganizationClient) as OrganizationClient;
 
-    #endregion
+    internal ProjectClient ProjectClient => SessionState.PSVariable.GetValue(VariableNames.ProjectClient) as ProjectClient;
 
-    #region Protected Properties
-
-    protected OrganizationHttpClient OrganizationClient => VssConnection.GetClient<OrganizationHttpClient>();
-
-    protected ProjectHttpClient ProjectClient => VssConnection.GetClient<ProjectHttpClient>();
-
-    protected ServiceEndpointHttpClient ServiceEndpointClient => VssConnection.GetClient<ServiceEndpointHttpClient>();
+    internal ServiceEndpointClient ServiceEndpointClient => SessionState.PSVariable.GetValue(VariableNames.ServiceEndpointClient) as ServiceEndpointClient;
 
     #endregion
 
@@ -29,10 +26,10 @@ public class CmdletBase : PSCmdlet
 
     protected void Configure(string organization, string personalAccessToken)
     {
-        SessionState.PSVariable.Set(VariableNames.Organization, organization);
-        SessionState.PSVariable.Set(VariableNames.PersonalAccessToken, personalAccessToken);
-        var connection = new VssConnection(new Uri($"https://dev.azure.com/{organization}/"), new VssBasicCredential(string.Empty, personalAccessToken));
-        SessionState.PSVariable.Set(VariableNames.VssConnection, connection);
+        var vssConnection = new VssConnection(new Uri($"https://dev.azure.com/{organization}/"), new VssBasicCredential(string.Empty, personalAccessToken));
+        SessionState.PSVariable.Set(VariableNames.OrganizationClient, new OrganizationClient(vssConnection.GetClient<OrganizationHttpClient>()));
+        SessionState.PSVariable.Set(VariableNames.ProjectClient, new ProjectClient(vssConnection.GetClient<ProjectHttpClient>()));
+        SessionState.PSVariable.Set(VariableNames.ServiceEndpointClient, new ServiceEndpointClient(vssConnection.GetClient<ServiceEndpointHttpClient>()));
     }
 
     #endregion

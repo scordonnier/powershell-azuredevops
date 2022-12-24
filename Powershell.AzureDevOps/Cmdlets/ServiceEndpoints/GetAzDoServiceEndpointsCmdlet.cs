@@ -10,7 +10,7 @@ public class GetAzDoServiceEndpointsCmdlet : CmdletBase
     #region Parameters
 
     [Parameter(Mandatory = true)]
-    public string ProjectId { get; set; }
+    public Guid ProjectId { get; set; }
 
     #endregion
 
@@ -18,9 +18,7 @@ public class GetAzDoServiceEndpointsCmdlet : CmdletBase
 
     protected override void ProcessRecord()
     {
-        using var client = ServiceEndpointClient;
-        var result = client.GetServiceEndpointsAsync(ProjectId).Result;
-        WriteObject(result);
+        WriteObject(ServiceEndpointClient.GetServiceEndpointsAsync(ProjectId).Result);
     }
 
     #endregion
