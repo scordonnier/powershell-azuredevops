@@ -4,14 +4,17 @@ using System.Management.Automation;
 using Microsoft.VisualStudio.Services.ServiceEndpoints.WebApi;
 using Powershell.AzureDevOps.Clients.ServiceEndpoints;
 
-[Cmdlet(VerbsCommon.New, "AzDoServiceEndpointAzureRm")]
+[Cmdlet(VerbsData.Update, "AzDoServiceEndpointBitbucket")]
 [OutputType(typeof(ServiceEndpoint))]
-public class NewAzDoServiceEndpointAzureRmCmdlet : CmdletBase
+public class UpdateAzDoServiceEndpointBitbucketCmdlet : CmdletBase
 {
     #region Parameters
 
     [Parameter(Mandatory = true)]
-    public CreateOrUpdateServiceEndpointAzureRmArgs ServiceEndpoint { get; set; }
+    public Guid Id { get; set; }
+
+    [Parameter(Mandatory = true)]
+    public CreateOrUpdateServiceEndpointBitbucketArgs ServiceEndpoint { get; set; }
 
     #endregion
 
@@ -19,7 +22,7 @@ public class NewAzDoServiceEndpointAzureRmCmdlet : CmdletBase
 
     protected override void ProcessRecord()
     {
-        WriteObject(ServiceEndpointClient.CreateServiceEndpointAzureRmAsync(ServiceEndpoint).Result);
+        WriteObject(ServiceEndpointClient.UpdateServiceEndpointBitbucketAsync(Id, ServiceEndpoint).Result);
     }
 
     #endregion

@@ -11,7 +11,7 @@ public class NewAzDoServiceEndpointBitbucketCmdlet : CmdletBase
     #region Parameters
 
     [Parameter(Mandatory = true)]
-    public CreateServiceEndpointBitbucketArgs ServiceEndpoint { get; set; }
+    public CreateOrUpdateServiceEndpointBitbucketArgs ServiceEndpoint { get; set; }
 
     #endregion
 

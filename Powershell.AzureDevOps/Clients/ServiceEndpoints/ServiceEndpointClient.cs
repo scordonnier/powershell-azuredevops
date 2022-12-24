@@ -1,6 +1,7 @@
 namespace Powershell.AzureDevOps.Clients.ServiceEndpoints;
 
 using System.Collections.ObjectModel;
+using Microsoft.VisualStudio.Services.Common;
 using Microsoft.VisualStudio.Services.ServiceEndpoints;
 using Microsoft.VisualStudio.Services.ServiceEndpoints.WebApi;
 
@@ -23,47 +24,15 @@ internal class ServiceEndpointClient
 
     #region Public Methods
 
-    public Task<ServiceEndpoint> CreateServiceEndpointAzureRmAsync(CreateServiceEndpointAzureRmArgs args, CancellationToken cancellationToken = default)
+    public Task<ServiceEndpoint> CreateServiceEndpointAzureRmAsync(CreateOrUpdateServiceEndpointAzureRmArgs args, CancellationToken cancellationToken = default)
     {
-        var serviceEndpoint = BuildServiceEndpoint(args);
-        serviceEndpoint.Authorization = new EndpointAuthorization
-        {
-            Parameters = new Dictionary<string, string>
-            {
-                { "authenticationType", "spnKey" },
-                { "serviceprincipalid", args.ServicePrincipalId },
-                { "serviceprincipalkey", args.ServicePrincipalKey },
-                { "tenantid", args.TenantId }
-            },
-            Scheme = EndpointAuthorizationSchemes.ServicePrincipal
-        };
-        serviceEndpoint.Data = new Dictionary<string, string>
-        {
-            { "creationMode", "Manual" },
-            { "environment", "AzureCloud" },
-            { "scopeLevel", "Subscription" },
-            { "subscriptionId", args.SubscriptionId },
-            { "subscriptionName", args.SubscriptionName }
-        };
-        serviceEndpoint.Type = ServiceEndpointTypes.AzureRM;
-        serviceEndpoint.Url = new Uri("https://management.azure.com/");
+        var serviceEndpoint = BuildOrUpdateServiceEndpointAzureRm(null, args);
         return client.CreateServiceEndpointAsync(serviceEndpoint, cancellationToken: cancellationToken);
     }
 
-    public Task<ServiceEndpoint> CreateServiceEndpointBitbucketAsync(CreateServiceEndpointBitbucketArgs args, CancellationToken cancellationToken = default)
+    public Task<ServiceEndpoint> CreateServiceEndpointBitbucketAsync(CreateOrUpdateServiceEndpointBitbucketArgs args, CancellationToken cancellationToken = default)
     {
-        var serviceEndpoint = BuildServiceEndpoint(args);
-        serviceEndpoint.Authorization = new EndpointAuthorization
-        {
-            Parameters = new Dictionary<string, string>
-            {
-                { "username", args.UserName },
-                { "password", args.Password }
-            },
-            Scheme = EndpointAuthorizationSchemes.UsernamePassword
-        };
-        serviceEndpoint.Type = ServiceEndpointTypes.Bitbucket;
-        serviceEndpoint.Url = new Uri("https://api.bitbucket.org/");
+        var serviceEndpoint = BuildOrUpdateServiceEndpointBitbucket(null, args);
         return client.CreateServiceEndpointAsync(serviceEndpoint, cancellationToken: cancellationToken);
     }
 
@@ -99,12 +68,38 @@ internal class ServiceEndpointClient
         return client.ShareEndpointWithProjectAsync(id, sourceProjectId, targetProjectId, cancellationToken: cancellationToken);
     }
 
+    public async Task<ServiceEndpoint> UpdateServiceEndpointAzureRmAsync(Guid id, CreateOrUpdateServiceEndpointAzureRmArgs args, CancellationToken cancellationToken = default)
+    {
+        var serviceEndpoint = await GetServiceEndpointAsync(id, null, args.ProjectId, cancellationToken);
+        serviceEndpoint = BuildOrUpdateServiceEndpointAzureRm(serviceEndpoint, args);
+        return await client.UpdateServiceEndpointAsync(id, serviceEndpoint, cancellationToken: cancellationToken);
+    }
+
+    public async Task<ServiceEndpoint> UpdateServiceEndpointBitbucketAsync(Guid id, CreateOrUpdateServiceEndpointBitbucketArgs args, CancellationToken cancellationToken = default)
+    {
+        var serviceEndpoint = await GetServiceEndpointAsync(id, null, args.ProjectId, cancellationToken);
+        serviceEndpoint = BuildOrUpdateServiceEndpointBitbucket(serviceEndpoint, args);
+        return await client.UpdateServiceEndpointAsync(id, serviceEndpoint, cancellationToken: cancellationToken);
+    }
+
     #endregion
 
     #region Private Methods
 
-    private static ServiceEndpoint BuildServiceEndpoint(CreateServiceEndpointArgs args)
+    private static ServiceEndpoint BuildOrUpdateServiceEndpoint(ServiceEndpoint currentServiceEndpoint, CreateOrUpdateServiceEndpointArgs args)
     {
+        if (currentServiceEndpoint != null)
+        {
+            currentServiceEndpoint.Description = args.Description;
+            currentServiceEndpoint.Name = args.Name;
+            currentServiceEndpoint.ServiceEndpointProjectReferences.ForEach(p =>
+            {
+                p.Description = args.Description;
+                p.Name = args.Name;
+            });
+            return currentServiceEndpoint;
+        }
+
         return new ServiceEndpoint
         {
             Description = args.Description,
@@ -123,6 +118,50 @@ internal class ServiceEndpointClient
                 }
             }
         };
+    }
+
+    private static ServiceEndpoint BuildOrUpdateServiceEndpointAzureRm(ServiceEndpoint currentServiceEndpoint, CreateOrUpdateServiceEndpointAzureRmArgs args)
+    {
+        var serviceEndpoint = BuildOrUpdateServiceEndpoint(currentServiceEndpoint, args);
+        serviceEndpoint.Authorization = new EndpointAuthorization
+        {
+            Parameters = new Dictionary<string, string>
+            {
+                { "authenticationType", "spnKey" },
+                { "serviceprincipalid", args.ServicePrincipalId },
+                { "serviceprincipalkey", args.ServicePrincipalKey },
+                { "tenantid", args.TenantId }
+            },
+            Scheme = EndpointAuthorizationSchemes.ServicePrincipal
+        };
+        serviceEndpoint.Data = new Dictionary<string, string>
+        {
+            { "creationMode", "Manual" },
+            { "environment", "AzureCloud" },
+            { "scopeLevel", "Subscription" },
+            { "subscriptionId", args.SubscriptionId },
+            { "subscriptionName", args.SubscriptionName }
+        };
+        serviceEndpoint.Type = ServiceEndpointTypes.AzureRM;
+        serviceEndpoint.Url = new Uri("https://management.azure.com/");
+        return serviceEndpoint;
+    }
+
+    private static ServiceEndpoint BuildOrUpdateServiceEndpointBitbucket(ServiceEndpoint currentServiceEndpoint, CreateOrUpdateServiceEndpointBitbucketArgs args)
+    {
+        var serviceEndpoint = BuildOrUpdateServiceEndpoint(currentServiceEndpoint, args);
+        serviceEndpoint.Authorization = new EndpointAuthorization
+        {
+            Parameters = new Dictionary<string, string>
+            {
+                { "username", args.UserName },
+                { "password", args.Password }
+            },
+            Scheme = EndpointAuthorizationSchemes.UsernamePassword
+        };
+        serviceEndpoint.Type = ServiceEndpointTypes.Bitbucket;
+        serviceEndpoint.Url = new Uri("https://api.bitbucket.org/");
+        return serviceEndpoint;
     }
 
     #endregion

@@ -1,6 +1,6 @@
 namespace Powershell.AzureDevOps.Clients.ServiceEndpoints;
 
-public class CreateServiceEndpointArgs
+public class CreateOrUpdateServiceEndpointArgs
 {
     public string Description { get; set; }
 
@@ -9,7 +9,7 @@ public class CreateServiceEndpointArgs
     public Guid ProjectId { get; set; }
 }
 
-public class CreateServiceEndpointAzureRmArgs : CreateServiceEndpointArgs
+public class CreateOrUpdateServiceEndpointAzureRmArgs : CreateOrUpdateServiceEndpointArgs
 {
     public string ServicePrincipalId { get; set; }
 
@@ -22,7 +22,7 @@ public class CreateServiceEndpointAzureRmArgs : CreateServiceEndpointArgs
     public string TenantId { get; set; }
 }
 
-public class CreateServiceEndpointBitbucketArgs : CreateServiceEndpointArgs
+public class CreateOrUpdateServiceEndpointBitbucketArgs : CreateOrUpdateServiceEndpointArgs
 {
     public string Password { get; set; }
 
