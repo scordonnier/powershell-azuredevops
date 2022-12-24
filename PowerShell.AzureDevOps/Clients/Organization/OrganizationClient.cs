@@ -1,4 +1,4 @@
-namespace Powershell.AzureDevOps.Clients.Organization;
+namespace PowerShell.AzureDevOps.Clients.Organization;
 
 using Microsoft.VisualStudio.Services.Organization.Client;
 

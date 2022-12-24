@@ -1,4 +1,4 @@
-namespace Powershell.AzureDevOps.Clients.ServiceEndpoints;
+namespace PowerShell.AzureDevOps.Clients.ServiceEndpoints;
 
 using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.Services.Common;

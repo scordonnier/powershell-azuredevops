@@ -1,4 +1,4 @@
-namespace Powershell.AzureDevOps.Cmdlets;
+namespace PowerShell.AzureDevOps.Cmdlets;
 
 using System.Management.Automation;
 

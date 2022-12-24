@@ -1,4 +1,4 @@
-namespace Powershell.AzureDevOps.Clients.Projects;
+namespace PowerShell.AzureDevOps.Clients.Projects;
 
 using Microsoft.TeamFoundation.Core.WebApi;
 

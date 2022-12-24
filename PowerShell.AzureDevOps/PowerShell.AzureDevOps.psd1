@@ -1,7 +1,7 @@
 @{
 
 # Script module or binary module file associated with this manifest.
-    RootModule = 'Powershell.AzureDevOps.dll'
+    RootModule = 'PowerShell.AzureDevOps.dll'
 
     # Version number of this module.
     ModuleVersion = '0.0.1'
@@ -22,7 +22,7 @@
     Copyright = '(c) Stephane Cordonnier. All rights reserved.'
 
     # Description of the functionality provided by this module
-    # Description = ''
+    Description = 'Powershell cmdlets for Azure DevOps'
 
     # Minimum version of the PowerShell engine required by this module
     PowerShellVersion = '7.0'

@@ -1,4 +1,4 @@
-namespace Powershell.AzureDevOps;
+namespace PowerShell.AzureDevOps;
 
 public static class VariableNames
 {

@@ -1,4 +1,4 @@
-namespace Powershell.AzureDevOps;
+namespace PowerShell.AzureDevOps;
 
 using System.Management.Automation;
 using Microsoft.TeamFoundation.Core.WebApi;
@@ -6,9 +6,9 @@ using Microsoft.VisualStudio.Services.Common;
 using Microsoft.VisualStudio.Services.Organization.Client;
 using Microsoft.VisualStudio.Services.ServiceEndpoints.WebApi;
 using Microsoft.VisualStudio.Services.WebApi;
-using Powershell.AzureDevOps.Clients.Organization;
-using Powershell.AzureDevOps.Clients.Projects;
-using Powershell.AzureDevOps.Clients.ServiceEndpoints;
+using PowerShell.AzureDevOps.Clients.Organization;
+using PowerShell.AzureDevOps.Clients.Projects;
+using PowerShell.AzureDevOps.Clients.ServiceEndpoints;
 
 public class CmdletBase : PSCmdlet
 {
