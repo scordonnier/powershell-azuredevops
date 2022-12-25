@@ -1,4 +1,4 @@
-namespace PowerShell.AzureDevOps.Cmdlets.Core;
+namespace PowerShell.AzureDevOps.Cmdlets.DistributedTask;
 
 using System.Management.Automation;
 

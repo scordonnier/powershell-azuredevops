@@ -1,8 +1,10 @@
-namespace PowerShell.AzureDevOps.Cmdlets.Core;
+namespace PowerShell.AzureDevOps.Cmdlets.DistributedTask;
 
 using System.Management.Automation;
+using Microsoft.TeamFoundation.DistributedTask.WebApi;
 
 [Cmdlet(VerbsData.Update, "AzDoEnvironment")]
+[OutputType(typeof(EnvironmentInstance))]
 public class UpdateAzDoEnvironment : CmdletBase
 {
     #region Parameters
