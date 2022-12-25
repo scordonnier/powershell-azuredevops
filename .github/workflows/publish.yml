@@ -24,7 +24,7 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v2
         with:
           find: "# Prerelease = ''"
-          replace: "Prerelease = 'preview${{ github.run_number }}'"
+          replace: "Prerelease = 'preview'"
           include: '**/*.psd1'
           regex: false
       - name: Build Module
