@@ -1,9 +1,9 @@
 namespace PowerShell.AzureDevOps.Clients.ServiceEndpoints;
 
-using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.Services.Common;
 using Microsoft.VisualStudio.Services.ServiceEndpoints;
 using Microsoft.VisualStudio.Services.ServiceEndpoints.WebApi;
+using Microsoft.VisualStudio.Services.WebApi;
 
 internal class ServiceEndpointClient
 {
@@ -15,9 +15,9 @@ internal class ServiceEndpointClient
 
     #region Initialization / Memory Management
 
-    public ServiceEndpointClient(ServiceEndpointHttpClient client)
+    public ServiceEndpointClient(VssConnection connection)
     {
-        this.client = client;
+        client = connection.GetClient<ServiceEndpointHttpClient>();
     }
 
     #endregion
@@ -105,7 +105,7 @@ internal class ServiceEndpointClient
             Description = args.Description,
             Name = args.Name,
             Owner = ServiceEndpointOwner.Library,
-            ServiceEndpointProjectReferences = new Collection<ServiceEndpointProjectReference>
+            ServiceEndpointProjectReferences = new List<ServiceEndpointProjectReference>
             {
                 new()
                 {

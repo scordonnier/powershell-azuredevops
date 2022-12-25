@@ -1,11 +1,7 @@
 namespace PowerShell.AzureDevOps;
 
 using System.Management.Automation;
-using Microsoft.TeamFoundation.Core.WebApi;
-using Microsoft.TeamFoundation.DistributedTask.WebApi;
 using Microsoft.VisualStudio.Services.Common;
-using Microsoft.VisualStudio.Services.Organization.Client;
-using Microsoft.VisualStudio.Services.ServiceEndpoints.WebApi;
 using Microsoft.VisualStudio.Services.WebApi;
 using PowerShell.AzureDevOps.Clients.DistributedTask;
 using PowerShell.AzureDevOps.Clients.Organization;
@@ -31,10 +27,10 @@ public abstract class CmdletBase : PSCmdlet
     protected void Configure(string organization, string personalAccessToken)
     {
         var vssConnection = new VssConnection(new Uri($"https://dev.azure.com/{organization}/"), new VssBasicCredential(string.Empty, personalAccessToken));
-        SessionState.PSVariable.Set(VariableNames.DistributedTaskClient, new DistributedTaskClient(vssConnection.GetClient<TaskAgentHttpClient>()));
-        SessionState.PSVariable.Set(VariableNames.OrganizationClient, new OrganizationClient(vssConnection.GetClient<OrganizationHttpClient>()));
-        SessionState.PSVariable.Set(VariableNames.ProjectClient, new ProjectClient(vssConnection.GetClient<ProjectHttpClient>()));
-        SessionState.PSVariable.Set(VariableNames.ServiceEndpointClient, new ServiceEndpointClient(vssConnection.GetClient<ServiceEndpointHttpClient>()));
+        SessionState.PSVariable.Set(VariableNames.DistributedTaskClient, new DistributedTaskClient(vssConnection));
+        SessionState.PSVariable.Set(VariableNames.OrganizationClient, new OrganizationClient(vssConnection));
+        SessionState.PSVariable.Set(VariableNames.ProjectClient, new ProjectClient(vssConnection));
+        SessionState.PSVariable.Set(VariableNames.ServiceEndpointClient, new ServiceEndpointClient(vssConnection));
     }
 
     #endregion

@@ -1,6 +1,7 @@
 namespace PowerShell.AzureDevOps.Clients.Organization;
 
 using Microsoft.VisualStudio.Services.Organization.Client;
+using Microsoft.VisualStudio.Services.WebApi;
 
 internal class OrganizationClient
 {
@@ -12,9 +13,9 @@ internal class OrganizationClient
 
     #region Initialization / Memory Management
 
-    public OrganizationClient(OrganizationHttpClient client)
+    public OrganizationClient(VssConnection connection)
     {
-        this.client = client;
+        client = connection.GetClient<OrganizationHttpClient>();
     }
 
     #endregion

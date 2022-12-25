@@ -1,6 +1,7 @@
 namespace PowerShell.AzureDevOps.Clients.Projects;
 
 using Microsoft.TeamFoundation.Core.WebApi;
+using Microsoft.VisualStudio.Services.WebApi;
 
 internal class ProjectClient
 {
@@ -12,9 +13,9 @@ internal class ProjectClient
 
     #region Initialization / Memory Management
 
-    public ProjectClient(ProjectHttpClient client)
+    public ProjectClient(VssConnection connection)
     {
-        this.client = client;
+        client = connection.GetClient<ProjectHttpClient>();
     }
 
     #endregion
