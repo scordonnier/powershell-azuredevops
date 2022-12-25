@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="PowerShell.AzureDevOps.psd1">
+      <None Update="AzDOCmdlets.psd1">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

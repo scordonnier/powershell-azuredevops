@@ -11,6 +11,7 @@ on:
 
 jobs:
   publish:
+    name: "Build & Publish"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -18,8 +19,17 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 6.0.106
-      - name: Build PowerShell Module
-        run: dotnet publish -c Release -o $HOME/.local/share/powershell/Modules/PowerShell.AzureDevOps
-      - name: Publish PowerShell Module
+      - name: Set Prerelease
+        if: ${{ github.ref_name == 'develop' }}
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          find: "# Prerelease = ''"
+          replace: "Prerelease = 'preview-${{ github.run_number }}'"
+          include: '**/*.psd1'
+          regex: false
+      - name: Build Module
+        run: dotnet publish -c Release -o $HOME/.local/share/powershell/Modules/AzDOCmdlets
+      - name: Publish Module
+        if: ${{ github.ref_name == 'main' || github.ref_name == 'develop' }}
         shell: pwsh
-        run: Publish-Module -Name PowerShell.AzureDevOps -NuGetApiKey ${{ secrets.POWERSHELL_GALLERY }} -Force
+        run: Publish-Module -Name AzDOCmdlets -NuGetApiKey ${{ secrets.POWERSHELL_GALLERY }} -Force -AllowPrerelease
