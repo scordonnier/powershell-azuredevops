@@ -3,7 +3,7 @@ namespace PowerShell.AzureDevOps.Cmdlets.DistributedTask;
 using System.Management.Automation;
 
 [Cmdlet(VerbsCommon.Remove, "AzDoEnvironment")]
-public class RemoveAzDoEnvironment : CmdletBase
+public class RemoveAzDoEnvironmentCmdlet : CmdletBase
 {
     #region Parameters
 

@@ -3,9 +3,9 @@ namespace PowerShell.AzureDevOps.Cmdlets.DistributedTask;
 using System.Management.Automation;
 using Microsoft.TeamFoundation.DistributedTask.WebApi;
 
-[Cmdlet(VerbsData.Update, "AzDoVariableGroup")]
-[OutputType(typeof(VariableGroup))]
-public class UpdateAzDoVariableGroup : CmdletBase
+[Cmdlet(VerbsData.Update, "AzDoEnvironment")]
+[OutputType(typeof(EnvironmentInstance))]
+public class UpdateAzDoEnvironmentCmdlet : CmdletBase
 {
     #region Parameters
 
@@ -30,7 +30,7 @@ public class UpdateAzDoVariableGroup : CmdletBase
 
     protected override void ProcessRecord()
     {
-        WriteObject(DistributedTaskClient.UpdateVariableGroupAsync(Id, CurrentName, Name, Description, ProjectId).Result);
+        WriteObject(DistributedTaskClient.UpdateEnvironmentAsync(Id, CurrentName, Name, Description, ProjectId).Result);
     }
 
     #endregion
